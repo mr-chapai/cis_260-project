@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+.mybody{
+    #background: #EDEEEE;
+    background: #D5D5D5;
+    margin: 0 0 0 0;
+
+}
+.myheader{
+    margin:0;
+    padding:0;
+    #background: #EDEEEE;
+    background: #f0ff5d;
+
+}
+
+.mymain{
+
+    #background: #EDEEEE;
+    background: #42b1b1;
+
+}
+.myfooter{
+    #background: #EDEEEE;
+    background: #171616;
+
+}
+
+
+.mycontainer {
+    width: 100%; /* The container will be 100% of its parent's width */
+    max-width: 600px; /* But it will stop growing after 800 pixels */
+    margin: auto; /* Centers the container on the page */
+
+    padding:20px;
+    #border: 2px solid black;
+    border-radius: 15px 15px 15px 15px;
+    background: #EDEEEE;
+   #background: #D5D5D5;
+
+;
+}
+
+
+
+.items{
+    mycontainer {
+        width: 50px; /* The container will be 100% of its parent's width */
+        max-width: 150px; /* But it will stop growing after 800 pixels */
+        margin: auto; /* Centers the container on the page */
+
+        padding:20px;
+        border: 2px solid black;
+        border-radius: 15px 15px 15px 15px;
+        background: lightgray;
+    }
+
+    .main{
+        background: #f0ff5d;
+    }
+
+
+}
