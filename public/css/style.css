@@ -3,15 +3,15 @@ body {
     padding: 0;
 }
 .mybody{
-    #background: #EDEEEE;
-    background: #D5D5D5;
+    #background: #ffffff;
+    background: #ffffff;
     margin: 0 0 0 0;
 
 }
 .myheader{
     margin:0;
     padding:0;
-    #background: #EDEEEE;
+    #background: #ffffff;
     background: #f0ff5d;
 
 }
@@ -35,9 +35,9 @@ body {
     margin: auto; /* Centers the container on the page */
 
     padding:20px;
-    #border: 2px solid black;
+    border: 2px solid black;
     border-radius: 15px 15px 15px 15px;
-    background: #EDEEEE;
+    #background: #fafaf6;
    #background: #D5D5D5;
 
 ;
