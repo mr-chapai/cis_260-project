@@ -55,6 +55,7 @@ you’re already thinking like a professional.
 
 Good luck, and welcome to Markdown!
 
+<<<<<<< HEAD
 
 ***************
 Final Project 
@@ -117,3 +118,6 @@ cis_260_project/
 ├── composer.json
 └── package.json
 
+=======
+02/20 - No comments, good to go.
+>>>>>>> c13867bed4198961547e825a366659532450a21a
