@@ -1,5 +1,4 @@
 <footer class="bg-dark bg-opacity-100 text-white text-center py-3 mt-5">
-
     <!-- Footer start from here -->
     <div class="container">
         <div class="row">
@@ -17,6 +16,25 @@
             </div>
             <div class="col-sm">
                 <hr>
+                <p>Contact Us</p>
+                <!-- Make sure to include Font Awesome -->
+                <link rel="stylesheet"
+                      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+                <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 2;">
+                    <!-- Email -->
+                    <p>
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:example@email.com">Email:</a>
+                    </p>
+
+                    <!-- Phone -->
+                    <p>
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+1234567890">Dail...</a>
+                    </p>
+                </div>
+
                 <p>Follow Us on Social Media</p>
 
                 <div class="social-icons">
@@ -56,6 +74,6 @@
         <!-- Add Bootstrap CSS & Icons in head -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-
+    </div>
 </footer>
 

@@ -1,6 +1,6 @@
 @extends('layouts.applayout')
 
-@section('title', 'index')
+@section('title', 'Product ')
 
 @section('content')
     <h1>welcom to index page </h1>

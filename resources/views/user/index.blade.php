@@ -3,23 +3,23 @@
 @endphp
 @extends('layouts.applayout')
 
-@section('title', 'Index')
+@section('title', 'Home')
 
 @section('content')
-    <h1>Welcome to the Index Page</h1>
+    <h1>Welcome, USER_ .....</h1>
 
-    <div class="row">
+    @if($products->isEmpty())
+        <p>No products added yet.</p>
+    @else
+    <div class="row ">
             @foreach($products as $product)
                 <div class="col-md-3 mb-4 mt-5">
-                    <div class="card" style="width:98%; height: 550px">
+                    <div class="card" style="width:95%; height: 500px">
                         @if($product->product_image)
                             <img src="{{ asset('storage/' . $product->product_image) }}"
-
-
-                                 class="card-img-top"
+                                 class="card-img-top p-3"
                                  alt="product_image_{{ $product->id }}"
-                                 width="300px"
-                                 height=300px>
+                            style="width: 100%; max-height: 250px; object-fit: contain;"/>
                         @endif
                         <div class="card-body">
                             <h5 class="card-title">Product Name:"{{str::limit( $product->product_name, 20)}}</h5>
@@ -33,6 +33,7 @@
                 </div>
             @endforeach
         </div>
+    @endif
 
 @endsection
 

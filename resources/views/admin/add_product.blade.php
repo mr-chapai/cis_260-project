@@ -1,3 +1,22 @@
+@php
+    $category= [
+        'Electronics' => 'Electronics',
+       'Media' => 'Media',
+       'Equipment' => 'Equipment',
+       'Props' => 'Props',
+       'Styling Tools' => 'Styling Tools',
+       'Technician' => 'Technician',
+
+   ];
+    $qty=range(1, 1000);
+    $status=[
+        'A'=>'Not Available',
+        'B'=>'Processing',
+        'O'=>'Out of Status'
+
+]
+@endphp
+
 @extends('layouts.applayout')
 
 @section('title', 'Add Product')
@@ -6,37 +25,55 @@
 
     <div class="mycontainer">
 
-        <form class="form-floating" method="POST" action="{{route('product.store')}}" enctype="multipart/form-data">
+
+        <form class=" row g-3" method="POST" action="{{route('product.store')}}" enctype="multipart/form-data">
             @csrf
             <h1 class="text-center">Add Product</h1>
             <hr>
+            <x-input_field  divclass="clo-12 mt-2" label="Product name" name="product_name" type="text" value="{{old('product_name')}}"/>
 
-            {{-- Product Name --}}
-            <div class="mb-3">
-                <label for="product_name" class="form-label">Product Title:</label>
-                <input type="text" class="form-control border-dark" id="product_name" name="product_name"
-                       placeholder="Product Title" value="{{ old('product_name') }}">
+            <x-textarea_field  row="5" label="Product Description" name="product_description"
+                              value="{{old('product_description')}}"/>
+
+            <x-select_field label="Product Category" name="product_category" :options="$category"/>
+            <x-select_field label="Product Quantity" name="product_qty" :options="$qty" value="{{old('product_qty')}}"/>
+            <x-input_field label="Product Image" name="product_image" type="file" value="{{old('product_image')}}"/>
+            <x-input_field label="Price" name="product_price" type="text" value="{{old('product_price')}}"/>
+            <x-button_field type="submit" name="add_product_submit " placeholder="Add Product"/>
+            </form>
+
+        <!--
+            <form class="form-floating" method="POST" action="{{route('product.store')}}" enctype="multipart/form-data">
+            @csrf
+        <h1 class="text-center">Add Product</h1>
+        <hr>
+
+{{-- Product Name --}}
+        <div class="mb-3">
+            <label for="product_name" class="form-label">Product Title:</label>
+            <input type="text" class="form-control border-dark" id="product_name" name="product_name"
+                   placeholder="Product Title" value="{{ old('product_name') }}">
                 @error('product_name')
-                <div class="text-danger mt-1">{{ $message }}</div>
+        <div class="text-danger mt-1">{{ $message }}</div>
                 @enderror
-            </div>
+        </div>
 
-            {{-- Product Description --}}
-            <div class="mb-3">
-                <label for="product_description" class="form-label">Product Description</label>
-                <textarea class="form-control border-dark" id="product_description" rows="3"
-                          name="product_description">{{ old('product_description') }}</textarea>
+{{-- Product Description --}}
+        <div class="mb-3">
+            <label for="product_description" class="form-label">Product Description</label>
+            <textarea class="form-control border-dark" id="product_description" rows="3"
+                      name="product_description">{{ old('product_description') }}</textarea>
                 @error('product_description')
-                <div class="text-danger mt-1">{{ $message }}</div>
+        <div class="text-danger mt-1">{{ $message }}</div>
                 @enderror
-            </div>
+        </div>
 
-            {{-- Product Category --}}
-            <div class="mb-3">
-                <label for="product_category" class="form-label">Product Category</label>
-                <select class="form-select border-dark" id="product_category" name="product_category">
-                    <option value="" selected>Must select one</option>
-                    <option value="Electronics" {{ old('product_category') == 'Electronics' ? 'selected' : '' }}>Electronics</option>
+{{-- Product Category --}}
+        <div class="mb-3">
+            <label for="product_category" class="form-label">Product Category</label>
+            <select class="form-select border-dark" id="product_category" name="product_category">
+                <option value="" selected>Must select one</option>
+                <option value="Electronics" {{ old('product_category') == 'Electronics' ? 'selected' : '' }}>Electronics</option>
                     <option value="Media" {{ old('product_category') == 'Media' ? 'selected' : '' }}>Photo/Video</option>
                     <option value="Equipment" {{ old('product_category') == 'Equipment' ? 'selected' : '' }}>Equipment</option>
                     <option value="Stabilization" {{ old('product_category') == 'Stabilization' ? 'selected' : '' }}>Stabilization</option>
@@ -44,33 +81,34 @@
                     <option value="Backdrop" {{ old('product_category') == 'Backdrop' ? 'selected' : '' }}>Backdrop</option>
                 </select>
                 @error('product_category')
-                <div class="text-danger mt-1">{{ $message }}</div>
+        <div class="text-danger mt-1">{{ $message }}</div>
                 @enderror
-            </div>
+        </div>
 
-            {{-- Product Image --}}
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Product Image</label>
-                <input class="form-control border-dark" type="file" id="formFile" name="product_image">
-                @error('product_image')
-                <div class="text-danger mt-1">{{ $message }}</div>
+{{-- Product Image --}}
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Product Image</label>
+            <input class="form-control border-dark" type="file" id="formFile" name="product_image">
+@error('product_image')
+        <div class="text-danger mt-1">{{ $message }}</div>
                 @enderror
-            </div>
+        </div>
 
-            {{-- Product Price --}}
-            <div class="mb-3">
-                <label for="product_price" class="form-label">Product Price:</label>
-                <input type="text" class="form-control border-dark" id="product_price" name="product_price"
-                       placeholder="Product Price" value="{{ old('product_price') }}">
+{{-- Product Price --}}
+        <div class="mb-3">
+            <label for="product_price" class="form-label">Product Price:</label>
+            <input type="text" class="form-control border-dark" id="product_price" name="product_price"
+                   placeholder="Product Price" value="{{ old('product_price') }}">
                 @error('product_price')
-                <div class="text-danger mt-1">{{ $message }}</div>
+        <div class="text-danger mt-1">{{ $message }}</div>
                 @enderror
-            </div>
+        </div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-primary me-md-2" type="submit">Add Product</button>
-            </div>
-        </form>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-primary me-md-2" type="submit">Add Product</button>
+        </div>
+    </form>
+-->
 
     </div>
 

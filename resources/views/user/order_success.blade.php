@@ -1,6 +1,6 @@
 @extends('layouts.applayout')
 
-@section('title', 'index')
+@section('title', 'order')
 
 @section('content')
     <div class="container min-vh-100 d-flex justify-content-center align-items-center">

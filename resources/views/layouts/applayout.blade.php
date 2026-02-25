@@ -17,8 +17,8 @@
 @include('partials.header')
 
 {{-- Main Content --}}
-<main class="min-vh-100 min-vh-lg-75  my-4 main">
-    @yield('content')
+<main class=" min-vh-100 min-vh-lg-75 main m-0">
+        @yield('content')
 </main>
 
 

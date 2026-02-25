@@ -4,8 +4,9 @@ body {
 }
 .mybody{
     #background: #ffffff;
-    background: #ffffff;
-    margin: 0 0 0 0;
+    background: lightgray;
+    margin: 0;
+    padding: 0;
 
 }
 .myheader{
@@ -13,6 +14,7 @@ body {
     padding:0;
     #background: #ffffff;
     background: #f0ff5d;
+    height: 50px;
 
 }
 
@@ -37,12 +39,19 @@ body {
     padding:20px;
     border: 2px solid black;
     border-radius: 15px 15px 15px 15px;
-    #background: #fafaf6;
+    background: white;
    #background: #D5D5D5;
 
 ;
 }
-
+.myimg{
+    max-width: 500px;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+    /* Optional: keeps the image from becoming larger than its container even if container is < 500px */
+    max-width: 100%;
+}
 
 
 .items{
