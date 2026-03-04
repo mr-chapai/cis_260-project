@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+use App\Models\MyCart;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,7 +17,8 @@ class DatabaseSeeder extends Seeder
     {
          //User::factory(10)->create();
         $this->call(ProductSeeder::class);
-
+        $this->call(CustomUserSeeder::class);
+        $this->call(MyCartSeeder::class);
 
 
         User::factory()->create([

@@ -16,12 +16,13 @@ class ProductSeeder extends Seeder
     {
         for ($i = 0; $i < 200; $i++) {
             \App\Models\Product::create([
-                'product_name' => fake()->word(),
+                'product_name' => fake()->sentence(10),
                 'product_description' => fake()->sentence(10),
                 'product_qty' => rand(1, 100),
-                'product_image' => null,
+                'product_image' => $i %2==0? '/products/computer.png':'/products/cup.png',
                 'product_price' => fake()->randomFloat(2, 10, 1000),
                 'product_category' => fake()->randomElement(['Electronics', 'Clothes', 'Food']),
+
             ]);
         }
     }

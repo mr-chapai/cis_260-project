@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MyCart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use voku\helper\ASCII;
 use function Laravel\Prompts\alert;
@@ -67,7 +69,7 @@ return view('admin.add_product');
             'updated_at' => now(),
         ]);
 
-        return redirect('/products')
+        return redirect('/product')
             ->with('success', 'Product added successfully!');
     }
 
@@ -134,7 +136,7 @@ return view('admin.add_product');
 
         $product->save();
 
-        return redirect('/products')
+        return redirect('/product')
             ->with('success', 'Product Updated successfully!');
     }
 
@@ -145,14 +147,16 @@ return view('admin.add_product');
         $product=Product::find($id);
         $product->delete();
 
-        return redirect('/products')
-            ->with('success', 'Product Delete successfully!');
+        return redirect('/product')
+            ->with('error', 'Product Delete successfully!');
 
     }
 
     public function home(Product $products)
     {
         $products = Product::all();
+        $cart_item_count=MyCart::sum('qty');
+        Session::put('cart_item_count', $cart_item_count);
 
         return view('user.index', compact('products'));
     }

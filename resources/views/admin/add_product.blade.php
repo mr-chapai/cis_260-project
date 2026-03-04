@@ -8,7 +8,7 @@
        'Technician' => 'Technician',
 
    ];
-    $qty=range(1, 1000);
+    $qty=range(0, 1000);
     $status=[
         'A'=>'Not Available',
         'B'=>'Processing',
@@ -26,7 +26,7 @@
     <div class="mycontainer">
 
 
-        <form class=" row g-3" method="POST" action="{{route('product.store')}}" enctype="multipart/form-data">
+        <form class=" row g-3" method="POST" action="{{ route('product.store') }}" enctype="multipart/form-data">
             @csrf
             <h1 class="text-center">Add Product</h1>
             <hr>

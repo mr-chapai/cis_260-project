@@ -21,20 +21,22 @@
                 </div>
             @endif
 
+
             <div class="col-6 col-md-4  text-start">
-                <h3 class="ms-2">Product List</h3>
+                <h3 class="ms-2">User List</h3>
             </div>
             <div class="col-sm-6 col-md-8 text-end">
-                <span class=""> Product Count: {{ $products->count() ?? '0' }}</span>
-                <span class="me-5"> Items Count: {{ $totalQuantity ?? '0' }}</span>
-
-                <a href="/index" class="btn btn-primary">Customer view</a>
-                <a href="{{ route('product.create') }}" class="btn btn-primary me-3">Add Product</a>
+                <span class=""> Total Users: {{ $users->count() ?? '0' }}</span>
+                <a href="/index" name="" class="btn btn-primary">Customer view</a>
+                <a href="{{ route('user.form') }}" class="btn btn-primary me-3">Add User</a>
             </div>
         </div>
+        @php
+            @endphp
 
-        @if($products->isEmpty())
-            <p>No products added yet.</p>
+
+        @if($users->isEmpty())
+            <p>No User added yet.</p>
         @else
             <table class="table table-bordered table-striped">
                 <thead class="table-success">
@@ -42,52 +44,47 @@
                     <th scope="col">S.N</th>
                     <th scope="col"> ID</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Qty</th>
-                    <th>Price</th>
-                    <th scope="col">Image</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($products as $product)
+                @foreach($users as $user)
                     <tr>
                         <td>{{$loop->index+1}}</td>
-                        <td>{{ $product->id }}</td>
+                        <td>{{ $user->id }}</td>
 
                         <td>
-                            <a  class="link-primary" href="{{ route('product.index', $product->id) }}"
+                            <a  class="link-primary" href="{{ route('user.user', $user->id) }}"
                                style="text-decoration-line: none; color:black;">
-                                {{ $product->product_name }}
+                                {{ ucfirst($user->first_name) }} {{ucfirst($user->last_name) }}
                             </a>
                         </td>
 
-                        <td>{{ $product->product_description }}
+                        <td>{{ $user->email }}</td>
+                        <td>
+                            {{ preg_replace('/(\d{3})(\d{3})(\d{4})/', '($1) $2-$3', $user->phone) }}
                         </td>
-                        <td>{{ $product->product_category }}</td>
-                        <td class="text-end">{{$product->product_qty}}</td>
-                        <td class="text-end">${{ number_format($product->product_price, 2) }}</td>
-
-                        <td class="align-self-center">
-                            @if($product->product_image)
-
-                                <img src="{{ asset('storage/' . $product->product_image) }}"
-                                     alt="product_image_{{ $product->id }}"
-                                     style="width: 100%; max-height: 80px; object-fit: contain;"/>
-                            @else
-                                <p>N/A</p>
-                            @endif
+                        <td>{{ ucfirst($user->role) }}</td>
+                        <td class="@if( $user->status == 'expired')text-danger
+                        @elseif($user->status == 'active')text-success
+                        @elseif($user->status == 'pending')text-warning
+                        @endif">{{ ucfirst($user->status) }}
                         </td>
+
                         <td class="d-flex">
-                            <a class="btn btn-primary ms-1" href="{{ route('product.index', $product->id) }}"
+                            <a class="btn btn-primary ms-1" href="{{ route('user.user', $user->id) }}"
                                role="button"
                             title="View">&#128065;</a>
-                            <a class="btn btn-success ms-1" href="{{ route('product.edit', $product->id) }}"
-                               role="button" title="Edit">&#9997;</a>
+                            <a class="btn btn-success ms-1" href="{{ route('user.edit', $user->id) }}"
+                               role="button"
+                            title="Edite">&#9997;</a>
                             <!--Delete Button trigger modal -->
-                            <button title="Delete" type="button" class="btn btn-danger ms-1" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal"">
+                            <button type="button" class="btn btn-danger ms-1" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" title="Delete">
                                 &#9003;
                             </button>
 
@@ -103,14 +100,14 @@
                                                     aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p>Are you sure you want to delete this product?</p>
+                                            <p>Are you sure you want to delete this USER?</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                 Cancel
                                             </button>
 
-                                            <form action="{{ route('product.delete', $product->id) }}" method="POST"
+                                            <form action="{{ route('user.delete', $user->id) }}" method="POST"
                                                   style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
@@ -120,24 +117,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-                            <!--
-                        <form class="mt-1" action="{{ route('product.edit', $product->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="btn btn-success">Edit</button>
-                        </form>
-@if(isset($success))
-                                {{$success}}
-                            @endif
-                            <form class="mt-1" action="{{ route('product.delete', $product->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
--->
-
                         </td>
                     </tr>
 

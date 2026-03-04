@@ -13,12 +13,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto  mb-lg-0 text-white">
                 <li class="nav-item">
-                    <a class="nav-link active text-white" aria-current="page" href="/index">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active text-white" aria-current="page" href="/products">Product</a>
+                    <a class="nav-link active text-white" aria-current="page" href="/index" {{ request()->routeIs('index') ? 'active' : '' }}>Home</a>
                 </li>
 
+                @if(session('auth_user') && session('auth_user')['role'] === 'admin')
+                <li class="nav-item">
+                    <a class="nav-link active text-white" aria-current="page" href="/product">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-white" aria-current="page" href="/user">Users</a>
+                </li>
+                @endif
             </ul>
             <form class="w-50 d-flex " role="search">
                 <input class="form-control" type="search" placeholder="Search" aria-label="Search"/>
@@ -30,14 +35,18 @@
 
             <button class="btn  ms-2" name="user" type="submit" formaction="login">
 
+
+                @if(session('auth_user'))
                 <a href="/logout"><img src="{{ asset('icon-img/icons-white/log-out.png') }}" alt="Icon" width="fluid"
                                        height="30"
                                        class="me-2"></a>
-
-
-                <a href="/login"><img src="{{ asset('icon-img/icons-white/user.png') }}" alt="Icon" width="fluid"
-                                      height="30"
-                                      class="me-2"></a>
+                @endif
+                    @if(!session('auth_user'))
+                <a href="{{Route('login.form')}}">
+                    <img src="{{ asset('icon-img/icons-white/user.png') }}" alt="Icon" width="fluid"
+                         height="30"
+                         class="me-2"></a>
+                @endif
 
             </button>
             {{--<button type="button" class="btn btn-primary position-relative">
@@ -45,19 +54,28 @@
 
             </button>--}}
 
-           {{-- <button class="btn  ms-2">
-                <a href="/cart">
-                    <img src="{{ asset('icon-img/icons-white/cart.png') }}" alt="Icon" width="fluid" height="30"
-                         class="me-2">
-                </a>
-            </button>--}}
+            {{-- <button class="btn  ms-2">
+                 <a href="/cart">
+                     <img src="{{ asset('icon-img/icons-white/cart.png') }}" alt="Icon" width="fluid" height="30"
+                          class="me-2">
+                 </a>
+             </button>--}}
 
             <button type="button" class="btn position-relative">
                 <a href="/cart">
                     <img src="{{ asset('icon-img/icons-white/cart.png') }}" alt="Icon" width="fluid" height="30"
                          class="me-2">
 
-                    <span class=" position-absolute top-50 start-0 translate-middle badge rounded-pill text-danger text-bg-success bg-opacity-75">99
+                    <span
+                        class=" position-absolute top-50 start-0 translate-middle badge rounded-pill text-danger text-bg-success bg-opacity-75">
+                        @php
+                            if(session()->has('cart_item_count')) {
+                               echo(session('cart_item_count'));
+                          }
+
+
+
+                        @endphp
                     </span>
                 </a>
             </button>
