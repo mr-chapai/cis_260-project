@@ -52,10 +52,18 @@ class UserLoginController extends Controller
 
 
            // Session::put('authUser', $cart_item_count);
-        }else {
+        }
+
+        else {
             return redirect('/login')
                 ->with('usererror', 'User does not exist please check your email!');
         }
+        
+        // You want to be mindful that guest doesn't have admin rights.
+        Sessoion::put('auth_user', [
+            'first_name' => 'Guest',
+            'role' => 'guest'
+        ]);
 
         }
 

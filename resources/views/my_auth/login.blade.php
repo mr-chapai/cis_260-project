@@ -1,4 +1,3 @@
-
 <?php
 
 ?>
@@ -13,6 +12,11 @@
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ session('usererror') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="mt-3 text-center">
+    `           <a href="/guest-login" class="btn bth-secondary">
+                    Continue as Guest
+                </a>
             </div>
         @endif
         <form class=" row g-3" action="{{Route('login.store')}}" method="POST">
