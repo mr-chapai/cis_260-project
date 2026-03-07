@@ -24,7 +24,7 @@
                         <p class="card-text mt-3">Created Quantity: {{ $product->product_qty }}</p>
                         <h5 class="card-title mt-3">Price: ${{ number_format($product->product_price, 2) }}</h5>
                         <!-- Link to show page -->
-                        <a class="btn btn-primary mt-3" href="{{ route('product.show', $product->id) }}"  >back
+                        <a class="btn btn-primary mt-3" href="{{ route('product.products', $product->id) }}"  >back
                         </a>
 
                         <a href="#" class="btn btn-success mt-3">Add to Cart</a>

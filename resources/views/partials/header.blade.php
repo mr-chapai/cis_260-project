@@ -25,14 +25,13 @@
                 </li>
                 @endif
             </ul>
-            <form class="w-50 d-flex " role="search">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search"/>
-                <button class="btn " type="submit"><img src="{{ asset('icon-img/icons-white/magnifyingglass.png') }}"
-                                                        alt="Icon" width="fluid" height="20" class="me-2">
-
+            <form class="w-50 d-flex " role="search" action="{{route('index')}}" method="GET">
+                <input name="search" class="form-control" type="search" value ="@if(isset($search)){{$search}}@endif" placeholder="Search" aria-label="Search"/>
+                <button class="btn " type="submit" >
+                    <img src="{{ asset('icon-img/icons-white/magnifyingglass.png') }}"
+                                                        alt="Icon" width="fluid" height="20" class="">
                 </button>
             </form>
-
             <button class="btn  ms-2" name="user" type="submit" formaction="login">
 
 
@@ -70,7 +69,8 @@
                         class=" position-absolute top-50 start-0 translate-middle badge rounded-pill text-danger text-bg-success bg-opacity-75">
                         @php
                             if(session()->has('cart_item_count')) {
-                               echo(session('cart_item_count'));
+                                 echo (session('cart_item_count'));
+
                           }
 
 

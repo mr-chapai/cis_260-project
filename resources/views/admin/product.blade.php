@@ -57,7 +57,7 @@
                         <td>{{ $product->id }}</td>
 
                         <td>
-                            <a  class="link-primary" href="{{ route('product.index', $product->id) }}"
+                            <a  class="link-primary" href="{{ route('product.product', $product->id) }}"
                                style="text-decoration-line: none; color:black;">
                                 {{ $product->product_name }}
                             </a>
@@ -80,14 +80,14 @@
                             @endif
                         </td>
                         <td class="d-flex">
-                            <a class="btn btn-primary ms-1" href="{{ route('product.index', $product->id) }}"
+                            <a class="btn btn-primary ms-1" href="{{ route('product.product', $product->id) }}"
                                role="button"
                             title="View">&#128065;</a>
                             <a class="btn btn-success ms-1" href="{{ route('product.edit', $product->id) }}"
                                role="button" title="Edit">&#9997;</a>
                             <!--Delete Button trigger modal -->
                             <button title="Delete" type="button" class="btn btn-danger ms-1" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal"">
+                                    data-bs-target="#exampleModal">
                                 &#9003;
                             </button>
 

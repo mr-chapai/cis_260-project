@@ -67,7 +67,7 @@
 
 @extends('layouts.applayout')
 
-@section('title', 'Signup')
+@section('title', 'edit user')
 
 @section('content')
     <div class=" col-md-6 mycontainer p-3">

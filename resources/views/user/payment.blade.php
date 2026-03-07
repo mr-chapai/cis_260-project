@@ -28,10 +28,10 @@
 
                 <div class="d-flex justify-content-between mb-3">
                     <strong>Total:</strong>
-                    <strong>$110</strong>
+                    <strong>${{number_format($grand_total, 2) }}</strong>
                 </div>
 
-                <a href="/order-success" class="btn btn-success w-100">
+                <a href="{{route('payment.sucess')}}" class="btn btn-success w-100">
                     Pay Now
                 </a>
             </form>

@@ -20,6 +20,28 @@ class ProductController extends Controller
         return view('admin.product', compact('products','totalQuantity'));
     }
 
+    public function home(Request $request, Product $products){
+        $search=$request->search ? $request->search : '';
+        $products =null;
+        if($search!=''){
+            $products = Product::where('product_name','like','%'.$search.'%')
+                ->orwhere('product_description','like','%'.$search.'%')
+                ->orwhere('product_price','like','%'.$search.'%')
+                ->latest()->get();
+
+        }else{
+            $products = Product::all();
+
+            //so cart items if user login
+            $cart_item_count = MyCart::where('custom_users', session('auth_user.id'))->sum('qty');
+            Session::put('cart_item_count', $cart_item_count);
+
+        }
+
+        return view('user.index', compact('products', 'search'));
+        //return $search;
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -152,14 +174,7 @@ return view('admin.add_product');
 
     }
 
-    public function home(Product $products)
-    {
-        $products = Product::all();
-        $cart_item_count=MyCart::sum('qty');
-        Session::put('cart_item_count', $cart_item_count);
 
-        return view('user.index', compact('products'));
-    }
 
 
 }

@@ -1,6 +1,6 @@
 @extends('layouts.applayout')
 
-@section('title', 'Product Dashbord')
+@section('title', 'User')
 
 @section('content')
 
