@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         for ($i = 0; $i < 200; $i++) {
-            \App\Models\Product::create([
+            \App\Models\ProductModel::create([
                 'product_name' => fake()->sentence(10),
                 'product_description' => fake()->sentence(10),
                 'product_qty' => rand(1, 100),

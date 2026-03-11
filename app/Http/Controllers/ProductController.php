@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MyCart;
-use App\Models\Product;
+use App\Models\CartModel;
+use App\Models\ProductModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -14,32 +14,41 @@ use function Laravel\Prompts\alert;
 
 class ProductController extends Controller
 {
-    public function index(Product $product){
-        $products = Product::latest()->get();
-        $totalQuantity = Product::sum('product_qty'); // total quantity
-        return view('admin.product', compact('products','totalQuantity'));
+    public function index(ProductModel $product)
+    {
+        $products = ProductModel::latest()->get();
+
+        return view('admin.product', compact('products'));
     }
 
-    public function home(Request $request, Product $products){
-        $search=$request->search ? $request->search : '';
-        $products =null;
-        if($search!=''){
-            $products = Product::where('product_name','like','%'.$search.'%')
-                ->orwhere('product_description','like','%'.$search.'%')
-                ->orwhere('product_price','like','%'.$search.'%')
+
+    public function home(Request $request, ProductModel $products)
+    {
+        $search = $request->search ? $request->search : '';
+        $products = null;
+        if ($search != '') {
+            $products = ProductModel::where('product_name', 'like', '%' . $search . '%')
+                ->orwhere('product_description', 'like', '%' . $search . '%')
+                ->orwhere('product_price', 'like', '%' . $search . '%')
                 ->latest()->get();
+        } else {
+            $products = ProductModel::all();
+        }
 
-        }else{
-            $products = Product::all();
-
-            //so cart items if user login
-            $cart_item_count = MyCart::where('custom_users', session('auth_user.id'))->sum('qty');
+        //Aut user's cart item count
+        if (session()->has('auth_user.id')) {
+            $cart_item_count = CartModel::where('custom_users', session('auth_user.id'))->sum('qty');
             Session::put('cart_item_count', $cart_item_count);
+        }
+        //guest user's cart items count
+        if(session()->has('guest_cart')){
+            $cart_item_count=collect(session()->get('guest_cart', []))->sum('qty');
+            Session::put('cart_item_count', $cart_item_count);
+
 
         }
 
         return view('user.index', compact('products', 'search'));
-        //return $search;
     }
 
     /**
@@ -48,9 +57,8 @@ class ProductController extends Controller
     public function create()
     {
 
-return view('admin.add_product');
+        return view('admin.add_product');
     }
-
 
 
     /**
@@ -62,7 +70,7 @@ return view('admin.add_product');
         $request->validate([
             'product_name' => 'required|string|min:3|max:255',
             'product_description' => 'required|string|min:10|max:5000',
-            'product_qty'=>'required|integer|min:1|max:5000',
+            'product_qty' => 'required|integer|min:1|max:5000',
             'product_price' => 'required|numeric',
             'product_category' => 'required|string|max:255',
             'product_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -72,15 +80,15 @@ return view('admin.add_product');
         $imagePath = null;
         if ($request->hasFile('product_image')) {
             $file = $request->file('product_image');
-            $imageName = 'product_'.time(). $file->getClientOriginalExtension();
+            $imageName = 'product_' . time() . $file->getClientOriginalExtension();
             // Store inside: storage/app/public/products
-            $file->storeAs( "products", $imageName, 'public');
+            $file->storeAs("products", $imageName, 'public');
             // Save only filename in DB
-            $imagePath = "/products/".$imageName;
+            $imagePath = "/products/" . $imageName;
         }
 
         // Insert into DB
-        DB::table('Product')->insert([
+        DB::table('ProductModel')->insert([
             'product_name' => $request->product_name,
             'product_description' => $request->product_description,
             'product_price' => $request->product_price,
@@ -92,10 +100,8 @@ return view('admin.add_product');
         ]);
 
         return redirect('/product')
-            ->with('success', 'Product added successfully!');
+            ->with('success', 'ProductModel added successfully!');
     }
-
-
 
 
     /**
@@ -104,12 +110,12 @@ return view('admin.add_product');
     public function show($id)
     {
         // Find product by ID
-        $product = Product::find($id);
+        $product = ProductModel::find($id);
 
         // Check if product exists
         if (!$product) {
             return redirect()->route(route: 'product.index')
-                ->with('error', 'Product not found!');
+                ->with('error', 'ProductModel not found!');
         }
         // Return view with product
         return view('user.product', compact('product'));
@@ -119,8 +125,9 @@ return view('admin.add_product');
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id){
-        $product = Product::find($id);
+    public function edit($id)
+    {
+        $product = ProductModel::find($id);
         return view('admin.edit_product', compact('product'));
     }
 
@@ -130,12 +137,12 @@ return view('admin.add_product');
     public function update(Request $request, $id)
     {
 
-        $product = Product::findOrFail($id);
+        $product = ProductModel::findOrFail($id);
         // Validate
         $request->validate([
             'product_name' => 'required|string|min:3|max:255',
             'product_description' => 'required|string|min:10|max:5000',
-            'product_qty'=>'required|integer|min:1|max:5000',
+            'product_qty' => 'required|integer|min:1|max:5000',
             'product_price' => 'required|numeric',
             'product_category' => 'required|string|max:255',
             'product_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -151,30 +158,29 @@ return view('admin.add_product');
         // Image update
         if ($request->hasFile('product_image')) {
             $file = $request->file('product_image');
-            $imageName = 'product_'.time().'.'.$file->getClientOriginalExtension();
+            $imageName = 'product_' . time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs("products", $imageName, 'public');
-            $product->product_image = "/products/".$imageName;
+            $product->product_image = "/products/" . $imageName;
         }
 
         $product->save();
 
         return redirect('/product')
-            ->with('success', 'Product Updated successfully!');
+            ->with('success', 'ProductModel Updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id){
-        $product=Product::find($id);
+    public function destroy($id)
+    {
+        $product = ProductModel::find($id);
         $product->delete();
 
         return redirect('/product')
-            ->with('error', 'Product Delete successfully!');
+            ->with('error', 'ProductModel Delete successfully!');
 
     }
-
-
 
 
 }

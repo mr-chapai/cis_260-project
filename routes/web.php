@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\CustomUser;
+use App\Models\UserModel;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UserLoginController;
+use App\Http\Controllers\LoginUserController;
 use App\Http\Controllers\UserController;
-use \App\Http\Controllers\MyCartController;
+use \App\Http\Controllers\CartController;
 
 
 //root route
@@ -13,12 +13,12 @@ Route::get('/index', [ProductController::class, 'home'])->name('index');
 Route::get('/', [ProductController::class, 'home'])->name('index');
 
 //login
-Route::get('/logout', [UserLoginController::class, 'destroy'])->name('destroy');
+Route::get('/logout', [LoginUserController::class, 'destroy'])->name('destroy');
 Route::prefix('login')->name('login.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('users');
 
-    Route::get('/',[UserLoginController::class, 'create'])->name('form');
-    Route::post('submit/',[UserLoginController::class, 'store'])->name('store');
+    Route::get('/',[LoginUserController::class, 'create'])->name('form');
+    Route::post('submit/',[LoginUserController::class, 'store'])->name('store');
 });
 
 
@@ -48,30 +48,44 @@ Route::prefix('product')->name('product.')->group(function () {
 
 //cart route
 Route::prefix('cart')->name('cart.')->group(function () {
-    Route::get('/', [MyCartController::class, 'index'])->name('cart');
-    Route::post('/{id}', [MyCartController::class, 'store'])->name('store');
-    Route::get('/{id}', [MyCartController::class, 'show'])->name('cart');
-    Route::get('/edit/{id}', [MyCartController::class, 'edit'])->name('edit');
-    Route::post('/update/{id}', [MyCartController::class, 'update'])->name('update');
-    Route::delete('/delete/{id}', [MyCartController::class, 'destroy'])->name('delete');
-    Route::get('/delete/all', [MyCartController::class, 'deleteAll'])->name('delete.all');
+    Route::get('/', [CartController::class, 'index'])->name('cart');
+    Route::post('/{id}', [CartController::class, 'store'])->name('store');
+    Route::get('/{id}', [CartController::class, 'show'])->name('cart');
+    Route::get('/edit/{id}', [CartController::class, 'edit'])->name('edit');
+    Route::post('/update/{id}', [CartController::class, 'update'])->name('update');
+    Route::delete('/delete/{id}', [CartController::class, 'destroy'])->name('delete');
+    Route::get('/delete/all', [CartController::class, 'deleteAll'])->name('delete.all');
 
 });
 
 
-Route::get('/payment', [MyCartController::class, 'payment'])->name('payment');
-Route::get('/payment/sucess', [MyCartController::class, 'sucess'])->name('payment.sucess');
+Route::get('/payment', [CartController::class, 'payment'])->name('payment');
+Route::get('/payment/success', [CartController::class, 'success'])->name('payment.success');
 
 
 Route::get('/test', function(){
-    $data = CustomUser::with('carts')->get(); // use 'carts' now
+    $data = UserModel::with('carts')->get(); // use 'carts' now
     return $data; // JSON output
 });
 Route::get('/test1', function(){
-    $data = \App\Models\MyCart::with('users')->get(); // use 'carts' now
+    $data = \App\Models\CartModel::with('users')->get(); // use 'carts' now
     return $data; // JSON output
 });
 
+
+Route::get('/session-test', function(){
+    $sessionId = session()->getId();
+    return $sessionId; // JSON output
+});
+Route::get('/lgs', function(){
+    $sessionId = session()->getId();
+    Session::flush();
+    return $sessionId; // JSON output
+});
+Route::get('/ls', function(){
+    Session::flush();
+    return "successfully destroyed";
+});
 
 //user route
 

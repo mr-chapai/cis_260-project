@@ -69,6 +69,7 @@
             <tbody>
             @php
                 $grandTotal = 0;
+
             @endphp
 
             <tbody>
@@ -84,12 +85,28 @@
                              alt="img"
                              style="width: 100%; max-height: 20px; object-fit: contain;">
                     </td>
-                    <td>{{ $item->product_name }}</td>
+                    <td><a  class="link-primary" href="{{ route('product.product', $item->product_id) }}"
+                            style="text-decoration-line: none; color:black;">
+                            {{ $item->product_name }}
+
+
+
+                            user.cart_item
+
+
+
+
+
+
+
+
+
+                        </a></td>
                     <td>${{ number_format($item->price, 2) }}</td>
                     <td>
 
 
-                        <form action="{{ route('cart.update', $item->id) }}" method="POST" class="d-flex">
+                        <form action="{{ route('cart.update', $item->product_id) }}" method="POST" class="d-flex">
                             @csrf
                             <input type="number" name="qty"
                                    class="form-control border-dark me-2"
@@ -124,7 +141,7 @@
                                             Cancel
                                         </button>
 
-                                        <form action="{{ route('cart.delete', $item->id) }}" method="POST"
+                                        <form action="{{ route('cart.delete', $item->product_id) }}" method="POST"
                                               style="display:inline;">
                                             @csrf
                                             @method('DELETE')

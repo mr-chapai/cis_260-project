@@ -1,11 +1,11 @@
 @extends('layouts.applayout')
 
-@section('title', 'Product Dashbord')
+@section('title', 'ProductModel Dashbord')
 
 @section('content')
 
     <div class="bg-white pt-1">
-        <!--Product list heading row start -->
+        <!--ProductModel list heading row start -->
         <div class="row g-0 text-end  bg-white text-whitec">
             {{-- Success message --}}
             @if(session('success'))
@@ -45,7 +45,7 @@
                     <th scope="col">Description</th>
                     <th scope="col">Category</th>
                     <th scope="col">Qty</th>
-                    <th>Price</th>
+                    <th scope="col">Price</th>
                     <th scope="col">Image</th>
                     <th scope="col">Action</th>
                 </tr>

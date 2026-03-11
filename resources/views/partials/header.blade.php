@@ -68,12 +68,9 @@
                     <span
                         class=" position-absolute top-50 start-0 translate-middle badge rounded-pill text-danger text-bg-success bg-opacity-75">
                         @php
-                            if(session()->has('cart_item_count')) {
-                                 echo (session('cart_item_count'));
-
+                            if(session()->has('cart_item_count')& session('cart_item_count')>0) {
+                                echo (session('cart_item_count'));
                           }
-
-
 
                         @endphp
                     </span>

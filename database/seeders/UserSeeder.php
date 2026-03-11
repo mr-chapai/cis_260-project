@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CustomUserSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class CustomUserSeeder extends Seeder
     public function run(): void
     {
 
-        \App\Models\CustomUser::create([
+        \App\Models\UserModel::create([
             'first_name' => fake()->firstName,
             'last_name' => fake()->lastName(10),
             'email' => 'admin@gmail.com',
@@ -29,7 +29,7 @@ class CustomUserSeeder extends Seeder
             'zip' => fake()->postcode(),
             'status' => fake()->randomElement(['active', 'expired', 'panding']),
         ]);
-        \App\Models\CustomUser::create([
+        \App\Models\UserModel::create([
             'first_name' => fake()->firstName,
             'last_name' => fake()->lastName(10),
             'email' => 'user@gmail.com',
@@ -45,7 +45,7 @@ class CustomUserSeeder extends Seeder
             'zip' => fake()->postcode(),
             'status' => fake()->randomElement(['active', 'expired', 'panding']),
         ]);
-        \App\Models\CustomUser::create([
+        \App\Models\UserModel::create([
             'first_name' => 'Guest',
             'last_name' => 'User',
             'email' => 'guest@aol.com',
@@ -60,10 +60,10 @@ class CustomUserSeeder extends Seeder
             'zip' => '00000',
             'status' => 'active'
         ]);
-        
+
         /*
          * for ($i = 0; $i < 200; $i++) {
-            \App\Models\CustomUser::create([
+            \App\Models\UserModel::create([
                 'first_name' => fake()->firstName,
                 'last_name' => fake()->lastName(10),
                 'email' => fake()->email,

@@ -18,7 +18,7 @@
 
                 <div class="d-grid gap-2">
                     <a href="#" class="btn btn-success">View Order</a>
-                    <a href="/dashboard" class="btn btn-outline-primary">Go to Home</a>
+                    <a href="{{ route('index') }}" class="btn btn-outline-primary">Go to Home</a>
                 </div>
             </div>
         </div>

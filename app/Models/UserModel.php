@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\MyCart;
+use App\Models\CartModel;
 
-class CustomUser extends Model
+class UserModel extends Model
 {
 
     protected $primaryKey = 'id';
     public function carts() {
-        return $this->hasMany(MyCart::class, 'custom_users', 'id');
+        return $this->hasMany(CartModel::class, 'custom_users', 'id');
     }
 
 

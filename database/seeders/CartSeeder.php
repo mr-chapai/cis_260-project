@@ -4,10 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\MyCart;
+use App\Models\CartModel;
 
 
-class MyCartSeeder extends Seeder
+class CartSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class MyCartSeeder extends Seeder
     public function run(): void
     {
         for ($i = 0; $i < 10; $i++) {
-            \App\Models\MyCart::create([
+            \App\Models\CartModel::create([
                 'product_id' => fake()->numberBetween(1, 200),
                 'product_name' => fake()->sentence(5),
                 'custom_users' => rand(1, 200),

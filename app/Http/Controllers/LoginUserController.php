@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CustomUser;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class UserLoginController extends Controller
+class LoginUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class UserLoginController extends Controller
     public function create()
     {
 
-        return view('my_auth.login');
+        return view('auth.login');
     }
 
 
@@ -44,7 +44,7 @@ class UserLoginController extends Controller
             'login_password' => 'required|string',
 
         ]);
-        $user = CustomUser::where('email', $request->login_email)->first();
+        $user = UserModel::where('email', $request->login_email)->first();
         if ($user->exists()) {
 
             Session::put('auth_user', $user->toArray());
@@ -58,7 +58,7 @@ class UserLoginController extends Controller
             return redirect('/login')
                 ->with('usererror', 'User does not exist please check your email!');
         }
-        
+
         // You want to be mindful that guest doesn't have admin rights.
         Sessoion::put('auth_user', [
             'first_name' => 'Guest',
@@ -97,6 +97,8 @@ class UserLoginController extends Controller
     public function destroy()
     {
         session()->forget('auth_user');
+
+
         return redirect('/')->with('error', 'Logout Successful');
     }
 }

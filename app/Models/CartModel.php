@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MyCart extends Model
+class CartModel extends Model
 {
+    protected $table = 'carts';
     protected $primaryKey = 'id';
     public function users() {
-        return $this->belongsTo(CustomUser::class, 'custom_users', 'id');
+        return $this->belongsTo(UserModel::class, 'custom_users', 'id');
     }
     protected $fillable = [
         'product_id',

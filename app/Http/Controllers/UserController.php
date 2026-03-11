@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CustomUser;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = CustomUser::latest()->get();
+        $users = UserModel::latest()->get();
 
         return view('admin.users', compact('users'));
     }
@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('my_auth.signup');
+        return view('auth.signup');
     }
 
     /**
@@ -84,7 +84,7 @@ class UserController extends Controller
     {
 
         try {
-            $user = CustomUser::find($id);
+            $user = UserModel::find($id);
             if ($user) {
 
 
@@ -101,10 +101,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CustomUser $customUser, $id)
+    public function edit(UserModel $customUser, $id)
     {
 
-        $user = CustomUser::find($id);
+        $user = UserModel::find($id);
 
 
         return view('my_auth.edit_user', compact('user'));
@@ -115,7 +115,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = CustomUser::findOrFail($id);
+        $user = UserModel::findOrFail($id);
         if ($user) {
              $request->validate([
                  'fname' => 'required|string',
@@ -133,7 +133,7 @@ class UserController extends Controller
 
 
             $user->update($request->all());
-            return redirect('/user')->with('success', 'Product update successfully!');
+            return redirect('/user')->with('success', 'ProductModel update successfully!');
         } else {
             // Flash an error message and redirect
             return redirect('/user')->with('error', 'Sorry, user not found.');
@@ -171,7 +171,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $customUser = CustomUser::find($id);
+        $customUser = UserModel::find($id);
         $customUser->delete();
         return redirect('/user')
             ->with('error', 'User Delete successfully!');
