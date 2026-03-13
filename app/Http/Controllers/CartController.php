@@ -18,6 +18,8 @@ class CartController extends Controller
         if ($authUser) {
             $cartItems = CartModel::where('custom_users', $authUser)->get();
             $cart_item_count = $cartItems->sum('qty');
+            $cart_item_amount = $cartItems->sum('total_price');
+            Session::put('cart_total_amount', $cart_item_amount);
             Session::put('cart_item_count', $cart_item_count);
         } else {
             // Guest cart from session
@@ -27,7 +29,9 @@ class CartController extends Controller
                 return (object)$item;
             });
             $cart_item_count = collect($guestCart)->sum('qty');
+            $cart_total_amount = collect($guestCart)->sum('total_price');
             Session::put('cart_item_count', $cart_item_count);
+            Session::put('cart_total_amount', $cart_total_amount);
         }
         return view('user.cart', compact('cartItems'));
     }
@@ -54,8 +58,7 @@ class CartController extends Controller
                 $myCart->save();
                 //get seccion
                 session()->has('cart_item_count')? Session::put('cart_item_count',
-                    session('cart_item_count')+1):
-                    session()->put('cart_item_count', 1);
+                    session('cart_item_count')+1): session()->put('cart_item_count', 1);
             }
         } else {
             $guest_cart = session()->get('guest_cart', []);
@@ -84,8 +87,8 @@ class CartController extends Controller
     public function update(Request $request, $id){
         $authUser = session('auth_user.id');
         if ($authUser) {
-            $cartItems = CartModel::find($id);
-            $cartItems->qty = $request->qty;
+            $cartItems = CartModel::where('product_id', $id)->where('custom_users', $authUser)->first();
+            $cartItems->qty = request('qty');
             $cartItems->total_price = $request->qty * $cartItems->price;
             $cartItems->save();
         }
@@ -117,6 +120,7 @@ class CartController extends Controller
             $guest_cart = session()->get('guest_cart', []);
             if (isset($guest_cart[$id])) {
                 unset($guest_cart[$id]); // remove item
+                session()->put('guest_cart', $guest_cart); // update session
             }
         }
         return redirect('/cart')
@@ -143,20 +147,9 @@ class CartController extends Controller
 
     }
 
-    public function payment(Request $request)
-    {
 
-        $grand_total = CartModel::where('custom_users', session('auth_user.id'))->sum('total_price');
 
-        return view('user.payment', compact('grand_total'));
-        // return $grand_total;
-    }
 
-    public function success()
-    {
-
-        return view('user.order_success');
-    }
 
 
 }
