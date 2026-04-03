@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="row">
-        <div class="mycontainer col-8 ">
+        <div class="mycontainer col-8  mt-3">
             <h1>Product Details</h1>
             <hr>
             <h5 class="card-title">{{ $product->product_name }}</h5>

@@ -1,0 +1,9 @@
+ Seesion list
+ cart_item_count-> count total itmes in carts
+ cart_total_amount-> total amount of cart
+ cart_items-> list of cart tims
+
+ guest_cart-> guest user cart tiems
+
+ auth_user-> Authenticate user ;
+ guest_user_id-> Genereate random id fore guest user

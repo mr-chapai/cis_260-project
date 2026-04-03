@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class CartModel extends Model
 {
     protected $table = 'carts';
+
     protected $primaryKey = 'id';
+
+
     public function users() {
         return $this->belongsTo(UserModel::class, 'custom_users', 'id');
     }

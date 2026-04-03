@@ -1,5 +1,5 @@
-<nav class="navbar myheader navbar-expand-lg ps-2 bg-black  bg-opacity-100 mb-0" >
-    <div class="container-fluid g-0">
+ <nav class=" fixed-top navbar myheader navbar-expand-lg ps-2 bg-black  bg-opacity-100  " >
+    <div class="container-fluid g-0 ">
         <a class="navbar-brand" href="/">
             <img class="border border-white" src="{{ asset('icon-img/icons-white/logo_banner.png') }}" alt="logo"
                  width="flued" height="40">
@@ -24,6 +24,21 @@
                     <a class="nav-link active text-white" aria-current="page" href="/user">Users</a>
                 </li>
                 @endif
+
+                @php
+                $userId= session('auth_user.id');
+                @endphp
+                @if(session('auth_user'))
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" aria-current="page" href="{{ route('user.user',$userId) }}">Profile</a>
+                    </li>
+                @endif
+
+
+
+
+
+
             </ul>
             <form class="w-50 d-flex " role="search" action="{{route('index')}}" method="GET">
                 <input name="search" class="form-control" type="search" value ="@if(isset($search)){{$search}}@endif" placeholder="Search" aria-label="Search"/>
@@ -79,4 +94,7 @@
         </div>
     </div>
 </nav>
+ <div class="mb-5">
+
+ </div>
 

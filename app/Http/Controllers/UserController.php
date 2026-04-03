@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isFalse;
+use function Symfony\Component\String\u;
 
 
 class UserController extends Controller
@@ -17,9 +19,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = UserModel::latest()->get();
-
-        return view('admin.users', compact('users'));
+        if(session()->has('auth_user')&&(session('auth_user')['role'] == 'admin')){
+            $users=UserModel::all();
+            return view('admin.users', compact('users'));
+        }else{
+            return redirect('/login')->with('usererror', 'Unauthorised please login as Administrator');
+        }
     }
 
     /**
@@ -57,7 +62,7 @@ class UserController extends Controller
         ]);
 
 //  Insert Data
-        DB::table('custom_users')->insert([
+        DB::table('user_models')->insert([
             'first_name' => $request->fname,
             'last_name' => $request->lname,
             'email' => $request->signup_email,
@@ -82,32 +87,28 @@ class UserController extends Controller
      */
     public function show($id)
     {
-
         try {
             $user = UserModel::find($id);
-            if ($user) {
-
-
-                return view('my_auth.view_user', compact('user'));
+            if ($id == session('auth_user.id') || (session('auth_user')['role'] == 'admin') && $user!=null) {
+                return view('auth.view_user', compact('user'));
             } else {
                 return view('layouts.error')->with('error', 'User not found.');
             }
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }
-
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserModel $customUser, $id)
-    {
-
+    public function edit(UserModel $customUser, $id){
         $user = UserModel::find($id);
-
-
-        return view('my_auth.edit_user', compact('user'));
+        if ($id == session('auth_user.id') || (session('auth_user')['role'] == 'admin') && $user!=null) {
+            return view('auth.edit_user', compact('user'));
+        } else {
+            return view('layouts.error')->with('error', 'User not found.');
+        }
     }
 
     /**

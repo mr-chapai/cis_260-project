@@ -1,6 +1,6 @@
 @extends('layouts.applayout')
 
-@section('title', 'Payment')
+@section('title', 'PaymentModel')
 
 @section('content')
     <div class="container min-vh-100 d-flex justify-content-center align-items-start mybody">
@@ -31,7 +31,7 @@
                     <strong>${{number_format($grand_total, 2) }}</strong>
                 </div>
 
-                <a href="{{route('payment.success')}}" class="btn btn-success w-100">
+                <a href="{{route('payment.store')}}" class="btn btn-success w-100">
                     Pay Now
                 </a>
             </form>

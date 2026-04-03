@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class LoginUserController extends Controller
@@ -26,50 +28,32 @@ class LoginUserController extends Controller
     }
 
 
-
-
-
-
-
-
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $request->validate([
-            'login_email' => 'required|string',
-            //'login_email' => 'required|string|exists:users,username',
+            'login_email' => 'required|string|exists:user_models,email',
             'login_password' => 'required|string',
 
         ]);
+
         $user = UserModel::where('email', $request->login_email)->first();
-        if ($user->exists()) {
 
+
+        if ($user && Hash::check($request->login_password, $user->password)) {
             Session::put('auth_user', $user->toArray());
+            session()->forget('guest_cart');
+            session()->forget('cart_item_count');
             return redirect('/')->with('success', 'Login Successful');
-
-
-           // Session::put('authUser', $cart_item_count);
-        }
-
-        else {
+        } else {
             return redirect('/login')
                 ->with('usererror', 'User does not exist please check your email!');
         }
 
-        // You want to be mindful that guest doesn't have admin rights.
-        Sessoion::put('auth_user', [
-            'first_name' => 'Guest',
-            'role' => 'guest'
-        ]);
+    }
 
-        }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //

@@ -25,8 +25,8 @@
                 <h3 class="ms-2">Product List</h3>
             </div>
             <div class="col-sm-6 col-md-8 text-end">
-                <span class=""> Product Count: {{ $products->count() ?? '0' }}</span>
-                <span class="me-5"> Items Count: {{ $totalQuantity ?? '0' }}</span>
+                <span class=""> Product Count: {{ $products? $products->count(): 0 }}</span>
+                <span class="me-5"> Items Count: {{ $products?$products->sum('product_qty') :0}}</span>
 
                 <a href="/index" class="btn btn-primary">Customer view</a>
                 <a href="{{ route('product.create') }}" class="btn btn-primary me-3">Add Product</a>
@@ -57,7 +57,7 @@
                         <td>{{ $product->id }}</td>
 
                         <td>
-                            <a  class="link-primary" href="{{ route('product.product', $product->id) }}"
+                            <a class="link-primary" href="{{ route('product.product', $product->id) }}"
                                style="text-decoration-line: none; color:black;">
                                 {{ $product->product_name }}
                             </a>
@@ -82,7 +82,7 @@
                         <td class="d-flex">
                             <a class="btn btn-primary ms-1" href="{{ route('product.product', $product->id) }}"
                                role="button"
-                            title="View">&#128065;</a>
+                               title="View">&#128065;</a>
                             <a class="btn btn-success ms-1" href="{{ route('product.edit', $product->id) }}"
                                role="button" title="Edit">&#9997;</a>
                             <!--Delete Button trigger modal -->
@@ -120,24 +120,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-                            <!--
-                        <form class="mt-1" action="{{ route('product.edit', $product->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="btn btn-success">Edit</button>
-                        </form>
-@if(isset($success))
-                                {{$success}}
-                            @endif
-                            <form class="mt-1" action="{{ route('product.delete', $product->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
--->
-
                         </td>
                     </tr>
 

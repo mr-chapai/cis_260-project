@@ -3,7 +3,7 @@
 @section('title', 'cart')
 
 @section('content')
-    <div class="container my-5 mycontainer">
+    <div class="container my-5 mycontainer mt-3">
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
                 {{ session('success') }}
@@ -72,7 +72,8 @@
 
             @endphp
 
-            <tbody>
+            @if($cartItems->count()>0)
+                <tbody>
             @foreach($cartItems as $item)
                 @php
                     $rowTotal = $item->qty * $item->price;
@@ -87,21 +88,7 @@
                     </td>
                     <td><a  class="link-primary" href="{{ route('product.product', $item->product_id) }}"
                             style="text-decoration-line: none; color:black;">
-                            {{ $item->product_name }}
-
-
-
-                            user.cart_item
-
-
-
-
-
-
-
-
-
-                        </a></td>
+                            {{ $item->product_name }}</a></td>
                     <td>${{ number_format($item->price, 2) }}</td>
                     <td>
 
@@ -154,6 +141,7 @@
                     </td>
                 </tr>
             @endforeach
+            @endif
             </tbody>
             </tbody>
         </table>
@@ -164,9 +152,9 @@
                         <h5>Total: <strong>${{ number_format($grandTotal, 2) }}</strong></h5>
                     </div>
                 </strong></h5>
-            @if($cartItems->count() > 0)
+            @if($cartItems->count()>0)
 
-                 <a href="{{Route('payment')}}"> <button class="btn btn-success">Pay Now</button></a>
+                 <a href="{{Route('payment.payment',$grandTotal)}}"> <button class="btn btn-success">Check out</button></a>
                 {{--<form action="{{route('payment')}}" method="POST">
                     @csrf
                     <button class="btn btn-success">Pay Now</button>

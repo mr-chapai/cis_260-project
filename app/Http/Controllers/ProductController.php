@@ -8,24 +8,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Number;
+use Illuminate\Support\Str;
 use voku\helper\ASCII;
 use function Laravel\Prompts\alert;
 
 
 class ProductController extends Controller
 {
-    public function index(ProductModel $product)
-    {
-        $products = ProductModel::latest()->get();
 
-        return view('admin.product', compact('products'));
-    }
 
 
     public function home(Request $request, ProductModel $products)
     {
         $search = $request->search ? $request->search : '';
-        $products = null;
+
         if ($search != '') {
             $products = ProductModel::where('product_name', 'like', '%' . $search . '%')
                 ->orwhere('product_description', 'like', '%' . $search . '%')
@@ -37,18 +34,25 @@ class ProductController extends Controller
 
         //Aut user's cart item count
         if (session()->has('auth_user.id')) {
-            $cart_item_count = CartModel::where('custom_users', session('auth_user.id'))->sum('qty');
+            $cart_item = CartModel::where('custom_users', session('auth_user.id'));
+            $cart_item_count=$cart_item->count()>0? $cart_item->sum('qty'):0;
             Session::put('cart_item_count', $cart_item_count);
         }
         //guest user's cart items count
         if(session()->has('guest_cart')){
             $cart_item_count=collect(session()->get('guest_cart', []))->sum('qty');
             Session::put('cart_item_count', $cart_item_count);
-
-
         }
 
+
+
         return view('user.index', compact('products', 'search'));
+    }
+
+    public function index(ProductModel $product){
+        $products = ProductModel::latest()->get();
+
+        return view('admin.product', compact('products'));
     }
 
     /**
@@ -88,7 +92,7 @@ class ProductController extends Controller
         }
 
         // Insert into DB
-        DB::table('ProductModel')->insert([
+        DB::table('product')->insert([
             'product_name' => $request->product_name,
             'product_description' => $request->product_description,
             'product_price' => $request->product_price,
@@ -110,11 +114,11 @@ class ProductController extends Controller
     public function show($id)
     {
         // Find product by ID
-        $product = ProductModel::find($id);
+        $product = ProductModel::findOrFail($id);
 
         // Check if product exists
         if (!$product) {
-            return redirect()->route(route: 'product.index')
+            return redirect()->route(route: 'product.product')
                 ->with('error', 'ProductModel not found!');
         }
         // Return view with product
@@ -127,7 +131,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = ProductModel::find($id);
+        $product = ProductModel::findOrFail($id);
         return view('admin.edit_product', compact('product'));
     }
 
@@ -174,7 +178,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = ProductModel::find($id);
+        $product = ProductModel::findOrFail($id);
         $product->delete();
 
         return redirect('/product')

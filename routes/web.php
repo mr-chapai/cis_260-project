@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -58,9 +59,13 @@ Route::prefix('cart')->name('cart.')->group(function () {
 
 });
 
-
-Route::get('/payment', [CartController::class, 'payment'])->name('payment');
-Route::get('/payment/success', [CartController::class, 'success'])->name('payment.success');
+//cart route
+Route::prefix('payment')->name('payment.')->group(function () {
+   Route::get('/', [OrderController::class, 'stripe'])->name('payment');
+    Route::get('/method', [OrderController::class, 'store'])->name('store');
+    Route::get('/cancel', [OrderController::class, 'cancel'])->name('cancel');
+    Route::get('/success', [OrderController::class, 'success'])->name('success');
+});
 
 
 Route::get('/test', function(){

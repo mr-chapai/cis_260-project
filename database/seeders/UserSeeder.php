@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -17,7 +18,7 @@ class UserSeeder extends Seeder
             'first_name' => fake()->firstName,
             'last_name' => fake()->lastName(10),
             'email' => 'admin@gmail.com',
-            'password' =>' "admin"',
+            'password' =>Hash::make('admin'),
             'phone' => fake()->phoneNumber(),
             'gender' => fake()->randomElement(['Male', 'Female', 'Others']),
             'role' => 'admin',
@@ -33,7 +34,7 @@ class UserSeeder extends Seeder
             'first_name' => fake()->firstName,
             'last_name' => fake()->lastName(10),
             'email' => 'user@gmail.com',
-            'password' => 'user',
+            'password' =>Hash::make('user'),
             'phone' => fake()->phoneNumber(),
             'gender' => fake()->randomElement(['Male', 'Female', 'Others']),
             'role' => 'user',
@@ -49,7 +50,7 @@ class UserSeeder extends Seeder
             'first_name' => 'Guest',
             'last_name' => 'User',
             'email' => 'guest@aol.com',
-            'password' => 'guest',
+            'password' =>Hash::make('guest'),
             'phone' => '0000000000',
             'gender' => 'Others',
             'role' => 'guest',

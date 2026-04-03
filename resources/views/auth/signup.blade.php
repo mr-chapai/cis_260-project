@@ -73,7 +73,7 @@
 
 @section('content')
 
-    <div class=" col-md-6 mycontainer p-3">
+    <div class=" col-md-6 mycontainer mt-3">
         <h1 class="text-center">Sign UP </h1>
         <hr>
         <form class=" row g-3" action="{{Route('user.store')}}" method="POST">

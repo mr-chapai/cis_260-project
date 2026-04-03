@@ -27,7 +27,7 @@
             </div>
             <div class="col-sm-6 col-md-8 text-end">
                 <span class=""> Total Users: {{ $users->count() ?? '0' }}</span>
-                <a href="/index" name="" class="btn btn-primary">Customer view</a>
+               {{-- <a href="/index" name="" class="btn btn-primary">Customer view</a>--}}
                 <a href="{{ route('user.form') }}" class="btn btn-primary me-3">Add User</a>
             </div>
         </div>

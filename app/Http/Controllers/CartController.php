@@ -9,18 +9,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use function PHPUnit\Framework\isEmpty;
+use function Symfony\Component\String\s;
 
 class CartController extends Controller
 {
-    public function index()
-    {
+    public function index(){
         $authUser = session('auth_user.id');
+       // $cartItems = CartModel::where('custom_users', $authUser)->get();
+
         if ($authUser) {
             $cartItems = CartModel::where('custom_users', $authUser)->get();
-            $cart_item_count = $cartItems->sum('qty');
-            $cart_item_amount = $cartItems->sum('total_price');
-            Session::put('cart_total_amount', $cart_item_amount);
-            Session::put('cart_item_count', $cart_item_count);
+            $cart_item_count = $cartItems->count()>0?$cartItems->sum('qty'):0;
+            $cart_total_amount = $cartItems->count()>0?$cartItems->sum('total_price'):0;
+
+
         } else {
             // Guest cart from session
             $guestCart = session()->get('guest_cart', []);
@@ -28,20 +30,39 @@ class CartController extends Controller
             $cartItems = collect($guestCart)->map(function ($item) {
                 return (object)$item;
             });
+
+
             $cart_item_count = collect($guestCart)->sum('qty');
-            $cart_total_amount = collect($guestCart)->sum('total_price');
-            Session::put('cart_item_count', $cart_item_count);
-            Session::put('cart_total_amount', $cart_total_amount);
+
+            $cart_total_amount=0;
+            foreach ($cartItems as $cartItem) {
+                $cart_total_amount += $cartItem->qty * $cartItem->price;
+            }
+
+
+
         }
+
+        Session::put('cart_item_count', $cart_item_count);
+        Session::put('cart_total_amount', $cart_total_amount);
+        Session::put('cart_items_list', $cartItems);
+
+
+
+
+
         return view('user.cart', compact('cartItems'));
+
+
     }
 
 
     public function store(Request $request, $id){
-        $product = ProductModel::find($id);
+        $product = ProductModel::findOrFail($id);
         if (session()->has('auth_user.id')) {
             $authUserId = session('auth_user.id');
             $auth_cart = CartModel::where('custom_users', $authUserId)->where('product_id', $product->id)->first();
+
             if ($auth_cart) {
                 $auth_cart->qty += 1;
                 $auth_cart->total_price += $product->product_price;
@@ -74,9 +95,13 @@ class CartController extends Controller
                 ];
             }
             session()->put('guest_cart', $guest_cart);
+
         }
         return redirect('/')->with('success', 'ProductModel added to cart');
     }
+
+
+
 
     public function show(CartModel $myCart)
     {

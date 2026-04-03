@@ -27,20 +27,25 @@
         @endphp
     </h4>
 
+
+
+
+
+
     @if($products->isEmpty())
         <p class="text-center"> Products does not available.</p>
     @else
         <div class="row ">
             @foreach($products as $product)
                 <div class="col-md-3 mb-4">
-                    <div class="card" style="width:95%; height: 500px; font-size: 15px;" >
+                    <div class="card rounded-4" style="width:95%; height: 380px; font-size: 15px;">
                         @if($product->product_image)
                             <img src="{{ asset('storage/' . $product->product_image) }}"
                                  class="card-img-top p-3"
                                  alt="product_image_{{ $product->id }}"
-                                 style="width: 100%; max-height: 250px; object-fit: contain;"/>
+                                 style="width: 100%; max-height: 150px; object-fit: contain;"/>
                         @endif
-                        <div class="card-body">
+                        <div class="card-body ">
                             <h6 class="card-title">{{str::limit( $product->product_name, 50)}}</h6>
                             <p class="card-text">{{str::limit($product->product_description,100)}}
                                 <a href="{{ route('product.product', $product->id) }}"> See more</a>
@@ -48,14 +53,17 @@
                             <p class="card-title">Price: ${{ number_format($product->product_price, 2) }}</p>
 
                             @if($product->product_qty>0)
-                            <form action="{{ route('cart.store', $product->id )}}" method="POST">
-                                @csrf
-                                <button  type="submit" class="btn btn-primary align-text-bottom">Add to Cart</button>
-                            </form>
-                            @else
-                                <button  type="submit" class="btn btn-warning">out of stock</button>
-                            @endif
-
+                                <div class="justify-content-center">
+                                    <form action="{{ route('cart.store', $product->id )}}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary   position-absolute bottom-0  mb-3">
+                                            Add to Cart
+                                        </button>
+                                    </form>
+                                    @else
+                                        <button type="submit" class="btn btn-warning">out of stock</button>
+                                    @endif
+                                </div>
 
                         </div>
                     </div>
