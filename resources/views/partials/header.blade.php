@@ -23,12 +23,16 @@
                 <li class="nav-item">
                     <a class="nav-link active text-white" aria-current="page" href="/user">Users</a>
                 </li>
+
                 @endif
 
                 @php
                 $userId= session('auth_user.id');
                 @endphp
                 @if(session('auth_user'))
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" aria-current="page" href="/orders">Orders</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link active text-white" aria-current="page" href="{{ route('user.user',$userId) }}">Profile</a>
                     </li>

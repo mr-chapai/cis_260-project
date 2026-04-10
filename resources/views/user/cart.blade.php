@@ -153,12 +153,12 @@
                     </div>
                 </strong></h5>
             @if($cartItems->count()>0)
-
-                 <a href="{{Route('payment.payment',$grandTotal)}}"> <button class="btn btn-success">Check out</button></a>
-                {{--<form action="{{route('payment')}}" method="POST">
+                <form action="{{ route('payment.payment', $grandTotal) }}" method="POST">
                     @csrf
-                    <button class="btn btn-success">Pay Now</button>
-                </form>--}}
+                    <button type="submit" name="checkout" value="1" class="btn btn-success">
+                        Check out payment
+                    </button>
+                </form>
             @else
                 <p>Your cart is empty</p>
             @endif

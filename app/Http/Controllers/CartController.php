@@ -21,8 +21,6 @@ class CartController extends Controller
             $cartItems = CartModel::where('custom_users', $authUser)->get();
             $cart_item_count = $cartItems->count()>0?$cartItems->sum('qty'):0;
             $cart_total_amount = $cartItems->count()>0?$cartItems->sum('total_price'):0;
-
-
         } else {
             // Guest cart from session
             $guestCart = session()->get('guest_cart', []);
@@ -30,27 +28,15 @@ class CartController extends Controller
             $cartItems = collect($guestCart)->map(function ($item) {
                 return (object)$item;
             });
-
-
             $cart_item_count = collect($guestCart)->sum('qty');
-
             $cart_total_amount=0;
             foreach ($cartItems as $cartItem) {
                 $cart_total_amount += $cartItem->qty * $cartItem->price;
             }
-
-
-
         }
-
         Session::put('cart_item_count', $cart_item_count);
         Session::put('cart_total_amount', $cart_total_amount);
         Session::put('cart_items_list', $cartItems);
-
-
-
-
-
         return view('user.cart', compact('cartItems'));
 
 
@@ -62,7 +48,6 @@ class CartController extends Controller
         if (session()->has('auth_user.id')) {
             $authUserId = session('auth_user.id');
             $auth_cart = CartModel::where('custom_users', $authUserId)->where('product_id', $product->id)->first();
-
             if ($auth_cart) {
                 $auth_cart->qty += 1;
                 $auth_cart->total_price += $product->product_price;
@@ -103,10 +88,7 @@ class CartController extends Controller
 
 
 
-    public function show(CartModel $myCart)
-    {
-       return view('user.cart_item', compact('myCart'));
-    }
+
 
 
     public function update(Request $request, $id){

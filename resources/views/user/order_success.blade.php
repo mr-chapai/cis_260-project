@@ -1,21 +1,13 @@
 @extends('layouts.applayout')
-
 @section('title', 'order')
-
 @section('content')
     <div class="container min-vh-100 d-flex justify-content-center align-items-center">
-        <div class="card text-center shadow-sm p-4" style="max-width: 420px;">
+        <div class="card text-center shadow-sm p-4" style="max-width: 520px;">
             <div class="card-body">
                 <h2 class="text-success mb-3">Order Successful</h2>
-
-                <p class="mb-2">
-                    Thank you! Your order has been placed successfully.
-                </p>
-
-                <p class="fw-bold mb-3">
-                    Order ID: #123456
-                </p>
-
+                <p class="mb-2">Thank you! Your order has been placed successfully.</p>
+                <p class="fw-bold mb-3">Order : {{$order_id}}</p>
+                <p class="fw-bold mb-3">Transaction: {{$payment_id}}</p>
                 <div class="d-grid gap-2">
                     <a href="#" class="btn btn-success">View Order</a>
                     <a href="{{ route('index') }}" class="btn btn-outline-primary">Go to Home</a>
@@ -23,8 +15,5 @@
             </div>
         </div>
     </div>
-
-
-
 @endsection
 

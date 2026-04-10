@@ -89,7 +89,7 @@
 
             <x-input_field label="Phone Number" name="phone" type="text"  value="{{old('phone')}}"/>
 
-            <x-select_field  class="clo-6" label="Gender" name="gender" :options="['Select Gender','Male','Femal','Other']"/>
+            <x-select_field  class="clo-6" label="Gender" name="gender" :options="['Select Gender','Male','Femal','Other']" />
 
             {{--<x-radio_field group-labe="Gender" name="gender" :options="['male' => 'Male','female' => 'Female', 'others' => 'Others']"/>
 --}}

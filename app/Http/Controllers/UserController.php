@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OrderModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,10 +20,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        if(session()->has('auth_user')&&(session('auth_user')['role'] == 'admin')){
-            $users=UserModel::all();
+        $isUserAdmin = BaseController::isAdminUser();
+        if ($isUserAdmin) {
+            $users = UserModel::all();
             return view('admin.users', compact('users'));
-        }else{
+        } else {
             return redirect('/login')->with('usererror', 'Unauthorised please login as Administrator');
         }
     }
@@ -87,51 +89,71 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        try {
+
+        $isUserAdmin = BaseController::isAdminUser();
+        $isAuthUser = BaseController::isAutUser();
+        if ($isUserAdmin) {
             $user = UserModel::find($id);
-            if ($id == session('auth_user.id') || (session('auth_user')['role'] == 'admin') && $user!=null) {
+            if ($user) {
                 return view('auth.view_user', compact('user'));
             } else {
-                return view('layouts.error')->with('error', 'User not found.');
+                $userid = (session('auth_user.id'));
+                $user = UserModel::find($userid);
+                return view('auth.view_user', compact('user'));
             }
-        } catch (\Exception $exception) {
-            return $exception->getMessage();
+
+        } elseif ($isAuthUser) {
+            $userid = (session('auth_user.id'));
+            $user = UserModel::find($userid);
+            return view('auth.view_user', compact('user'));
+        } else {
+            return redirect('/login')->with('usererror', 'Unauthorised please login as Administrator');
         }
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserModel $customUser, $id){
-        $user = UserModel::find($id);
-        if ($id == session('auth_user.id') || (session('auth_user')['role'] == 'admin') && $user!=null) {
+    public function edit(UserModel $customUser, $id)
+    {
+        $isUserAdmin = BaseController::isAdminUser();
+        $isAuthUser = BaseController::isAutUser();
+
+        if ($isUserAdmin) {
+            $user = UserModel::find($id);
+            if ($user) {
+                return view('auth.edit_user', compact('user'));
+            } else {
+                return view('layouts.error')->with('error', 'User not found.');
+            }
+        } elseif ($isAuthUser) {
+            $userid = Session::get('auth_user.id');
+            $user = UserModel::find($userid);
             return view('auth.edit_user', compact('user'));
         } else {
-            return view('layouts.error')->with('error', 'User not found.');
+            return redirect('/login')->with('usererror', 'Your are Unauthorised please login');
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, $id)
     {
         $user = UserModel::findOrFail($id);
         if ($user) {
-             $request->validate([
-                 'fname' => 'required|string',
-                 'lname' => 'required|string',
-                 'phone' => 'required|string',
-                 'gender' => 'required',
-                 'role' => 'required',
-                 'address' => 'required|string',
-                 'address2' => 'required|string',
-                 'city' => 'required|string',
-                 'state' => 'required|string',
-                 'zip' => 'required|string',
-                 'check' => 'accepted',
-             ]);
-
+            $request->validate([
+                'fname' => 'required|string',
+                'lname' => 'required|string',
+                'phone' => 'required|string',
+                'gender' => 'required',
+                'role' => 'required',
+                'address' => 'required|string',
+                'address2' => 'required|string',
+                'city' => 'required|string',
+                'state' => 'required|string',
+                'zip' => 'required|string',
+                'check' => 'accepted',
+            ]);
 
             $user->update($request->all());
             return redirect('/user')->with('success', 'ProductModel update successfully!');
@@ -139,43 +161,24 @@ class UserController extends Controller
             // Flash an error message and redirect
             return redirect('/user')->with('error', 'Sorry, user not found.');
         }
-
-
-        /*
-                if ($user) {
-                    $request->validate([
-                        'fname' => 'required|string',
-                        'lname' => 'required|string',
-                        'phone' => 'required|string',
-                        'gender' => 'required',
-                        'role' => 'required',
-                        'address' => 'required|string',
-                        'address2' => 'required|string',
-                        'city' => 'required|string',
-                        'state' => 'required|string',
-                        'zip' => 'required|string',
-                        'check' => 'accepted',
-                    ]); //validate
-
-
-                } else {
-
-                    abort(404);
-                }
-
-                return "successfully updated user" . $user;
-                //return redirect()->route('user.users')->with('success','User updated successfully.');*/
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        $customUser = UserModel::find($id);
-        $customUser->delete();
-        return redirect('/user')
-            ->with('error', 'User Delete successfully!');
+        $isUserAdmin = BaseController::isAdminUser();
+        $isAuthUser = BaseController::isAutUser();
+        if ($isUserAdmin) {
+            $customUser = UserModel::find($id);
+            $customUser->delete();
+            return redirect('/user')
+                ->with('error', 'User Delete successfully!');
 
+        } else {
+            return redirect('/login')->with('usererror', 'Unauthorised please login as Administrator');
+        }
     }
 }
+
+
+
+

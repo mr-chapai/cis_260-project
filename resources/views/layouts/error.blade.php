@@ -26,7 +26,7 @@
             background-size: contain;
         }
     </style>
-    <title>Document</title>
+    <title>Error</title>
 </head>
 
 <body>

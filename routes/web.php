@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LoginUserController;
 use App\Http\Controllers\UserController;
 use \App\Http\Controllers\CartController;
+use \App\Http\Controllers\AddressController;
 
 
 //root route
@@ -59,13 +60,38 @@ Route::prefix('cart')->name('cart.')->group(function () {
 
 });
 
-//cart route
+//payment and order route
 Route::prefix('payment')->name('payment.')->group(function () {
-   Route::get('/', [OrderController::class, 'stripe'])->name('payment');
-    Route::get('/method', [OrderController::class, 'store'])->name('store');
-    Route::get('/cancel', [OrderController::class, 'cancel'])->name('cancel');
-    Route::get('/success', [OrderController::class, 'success'])->name('success');
+   Route::post('/', [OrderController::class, 'stripe'])->name('payment');
+   Route::get('/cancel', [OrderController::class, 'cancel'])->name('cancel');
+   Route::get('/success', [OrderController::class, 'success'])->name('success');
+
 });
+
+
+//address route
+Route::prefix('address')->name('address.')->group(function () {
+    Route::get('/', [AddressController::class, 'create'])->name('create');
+    Route::post('/', [AddressController::class, 'store'])->name('save');
+    Route::get('/edit/{id}', [AddressController::class, 'edit'])->name('edit');
+    Route::post('/update/{id}', [AddressController::class, 'update'])->name('update');
+    Route::delete('/delete/{id}', [AddressController::class, 'destroy'])->name('delete');
+});
+
+//order route
+Route::prefix('orders')->name('payment.')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('order');
+
+});
+
+Route::get('/no-access', function(){
+
+    return view('layouts.no-access');
+});
+
+
+
+
 
 
 Route::get('/test', function(){
