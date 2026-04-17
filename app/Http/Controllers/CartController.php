@@ -14,7 +14,7 @@ use function Symfony\Component\String\s;
 class CartController extends Controller
 {
     public function index(){
-        $authUser = session('auth_user.id');
+        $authUser = BaseController::getAuthUserId();
        // $cartItems = CartModel::where('custom_users', $authUser)->get();
 
         if ($authUser) {

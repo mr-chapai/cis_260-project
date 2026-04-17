@@ -22,12 +22,6 @@ class UserSeeder extends Seeder
             'phone' => fake()->phoneNumber(),
             'gender' => fake()->randomElement(['Male', 'Female', 'Others']),
             'role' => 'admin',
-            'address' => fake()->streetAddress,
-            'address2' => rand(1, 100),
-            'city' => fake()->city(),
-            'country' => fake()->country(),
-            'state' => fake()->state(),
-            'zip' => fake()->postcode(),
             'status' => fake()->randomElement(['active', 'expired', 'panding']),
         ]);
         \App\Models\UserModel::create([
@@ -38,27 +32,16 @@ class UserSeeder extends Seeder
             'phone' => fake()->phoneNumber(),
             'gender' => fake()->randomElement(['Male', 'Female', 'Others']),
             'role' => 'user',
-            'address' => fake()->streetAddress,
-            'address2' => rand(1, 100),
-            'city' => fake()->city(),
-            'country' => fake()->country(),
-            'state' => fake()->state(),
-            'zip' => fake()->postcode(),
             'status' => fake()->randomElement(['active', 'expired', 'panding']),
         ]);
         \App\Models\UserModel::create([
             'first_name' => 'Guest',
             'last_name' => 'User',
-            'email' => 'guest@aol.com',
+            'email' => 'guest@gmail.com',
             'password' =>Hash::make('guest'),
             'phone' => '0000000000',
             'gender' => 'Others',
-            'role' => 'guest',
-            'address' => 'N/A',
-            'city' => 'N/A',
-            'country' => 'N/A',
-            'state' => 'N/A',
-            'zip' => '00000',
+            'role' => 'user',
             'status' => 'active'
         ]);
 

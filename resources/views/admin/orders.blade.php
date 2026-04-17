@@ -48,14 +48,8 @@
                 @foreach($orders as $order)
                     <tr>
                         <td>{{$loop->index+1}}</td>
-                        <td><a class="link-primary" href="{{ route('user.user', $order->id) }}"
-                               style="text-decoration-line: none; color:black;">
-                                {{ ucfirst($order->id) }}</a>
-                        </td>
-                        <td>
-                            {{$order->user_id}}
-                        </td>
-
+                        <td>{{ ucfirst($order->id) }}</td>
+                        <td>{{$order->user_id}}</td>
                         <td>{{ $order->payment_id }}</td>
                         <td>{{$order->total_amount}}</td>
                         <td>{{ $order->created_at }}</td>

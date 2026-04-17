@@ -93,14 +93,6 @@
             <x-input_field label="Phone Number" name="phone" type="text"  value="{{$user->phone}}"/>
             <x-select_field  class="clo-6" label="Gender" name="gender"
                              :options="['0' => 'Select Gender','male' => 'Male', 'femal' => 'Femal', 'other' => 'Other']" value="{{$user->gender}}"/>
-            <x-input_field label="Address" name="address" type="text" divclass="clo-12" placeholder="1234 Main St" value="{{$user->address}}"/>
-            <x-input_field label="Address 2" name="address2" type="text" divclass="col-6"
-                           placeholder="Apartment, studio, or floor" value="{{$user->address2}}"/>
-            <x-input_field label="City" name="city" type="text"  value="{{$user->city}}"/>
-            <x-input_field label="Country" name="country" type="text"  value="{{$user->country}}"/>
-            <x-select_field label="State" name="state" :options="['Select state'] + $states" value="{{$user->state}}" />
-
-            <x-input_field label="Zip Code" name="zip" type="text" placeholder="Zip Code" value="{{$user->zip}}"/>
             <x-checkbox_field name="check">I agree to the <a href="/terms">Terms and Conditions</a></x-checkbox_field>
             <x-button_field name="update" type="submit" placeholder="Update" class="col-6"/>
             <div>

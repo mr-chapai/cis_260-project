@@ -42,8 +42,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $request->validate([
             'fname' => 'required|string',
             'lname' => 'required|string',
@@ -53,12 +51,6 @@ class UserController extends Controller
             'phone' => 'required|string',
             //'gender' => 'required|in:male,female,other',
             'gender' => 'required',
-            'address' => 'required|string',
-            'address2' => 'required|string',
-            'city' => 'required|string',
-            'country' => 'required|string',
-            'state' => 'required',
-            'zip' => 'required|string',
             'check' => 'accepted',
 
         ]);
@@ -72,16 +64,10 @@ class UserController extends Controller
             'phone' => $request->phone,
             'gender' => $request->gender,
             'role' => 'user', // default role
-            'address' => $request->address,
-            'address2' => $request->address2,
-            'city' => $request->city,
-            'country' => $request->country,
-            'state' => $request->state,
-            'zip' => $request->zip,
             'status' => 'active'
         ]);
 
-        return redirect()->route('user.users')->with('success', 'User created successfully.');
+        return redirect()->route('user.form')->with('success', 'User created successfully.');
     }
 
     /**
@@ -89,19 +75,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-
         $isUserAdmin = BaseController::isAdminUser();
         $isAuthUser = BaseController::isAutUser();
         if ($isUserAdmin) {
             $user = UserModel::find($id);
-            if ($user) {
-                return view('auth.view_user', compact('user'));
-            } else {
-                $userid = (session('auth_user.id'));
-                $user = UserModel::find($userid);
-                return view('auth.view_user', compact('user'));
-            }
-
+            return view('auth.view_user', compact('user'));
         } elseif ($isAuthUser) {
             $userid = (session('auth_user.id'));
             $user = UserModel::find($userid);
@@ -112,9 +90,7 @@ class UserController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(UserModel $customUser, $id)
     {
         $isUserAdmin = BaseController::isAdminUser();
@@ -147,11 +123,6 @@ class UserController extends Controller
                 'phone' => 'required|string',
                 'gender' => 'required',
                 'role' => 'required',
-                'address' => 'required|string',
-                'address2' => 'required|string',
-                'city' => 'required|string',
-                'state' => 'required|string',
-                'zip' => 'required|string',
                 'check' => 'accepted',
             ]);
 

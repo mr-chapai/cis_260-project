@@ -91,20 +91,7 @@
 
             <x-select_field  class="clo-6" label="Gender" name="gender" :options="['Select Gender','Male','Femal','Other']" />
 
-            {{--<x-radio_field group-labe="Gender" name="gender" :options="['male' => 'Male','female' => 'Female', 'others' => 'Others']"/>
---}}
-            <x-input_field label="Address" name="address" type="text" divclass="clo-12" placeholder="1234 Main St" value="{{old('address')}}"/>
-            <x-input_field label="Address 2" name="address2" type="text" divclass="col-6"
-                           placeholder="Apartment, studio, or floor" value="{{old('address2')}}"/>
-            <x-input_field label="City" name="city" type="text"  value="{{old('city')}}"/>
-            <x-input_field label="Country" name="country" type="text"  value="{{old('country')}}"/>
 
-            <x-select_field label="State" name="state" :options="['Select state'] + $states" value="{{old('state')}}" />
-
-
-
-
-            <x-input_field label="Zip Code" name="zip" type="text" placeholder="Zip Code" value="{{old('zip')}}"/>
             <x-checkbox_field name="check">I agree to the <a href="/terms">Terms and Conditions</a></x-checkbox_field>
             <x-button_field name="signup" type="submit" placeholder="Sign Up" class="col-6"/>
 

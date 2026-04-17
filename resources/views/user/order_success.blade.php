@@ -9,7 +9,6 @@
                 <p class="fw-bold mb-3">Order : {{$order_id}}</p>
                 <p class="fw-bold mb-3">Transaction: {{$payment_id}}</p>
                 <div class="d-grid gap-2">
-                    <a href="#" class="btn btn-success">View Order</a>
                     <a href="{{ route('index') }}" class="btn btn-outline-primary">Go to Home</a>
                 </div>
             </div>

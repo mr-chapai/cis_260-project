@@ -20,12 +20,6 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('gender')->nullable();
             $table->string('role')->nullable();
-            $table->string('address')->nullable();
-            $table->string('address2')->nullable();
-            $table->string('city')->nullable();
-            $table->string('country')->nullable();
-            $table->string('state')->nullable();
-            $table->string('zip')->nullable();
             $table->string('status')->default('active');
             $table->timestamps();
 

@@ -52,8 +52,6 @@ Route::prefix('product')->name('product.')->group(function () {
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('cart');
     Route::post('/{id}', [CartController::class, 'store'])->name('store');
-    Route::get('/{id}', [CartController::class, 'show'])->name('cart');
-    Route::get('/edit/{id}', [CartController::class, 'edit'])->name('edit');
     Route::post('/update/{id}', [CartController::class, 'update'])->name('update');
     Route::delete('/delete/{id}', [CartController::class, 'destroy'])->name('delete');
     Route::get('/delete/all', [CartController::class, 'deleteAll'])->name('delete.all');
@@ -74,8 +72,8 @@ Route::prefix('address')->name('address.')->group(function () {
     Route::get('/', [AddressController::class, 'create'])->name('create');
     Route::post('/', [AddressController::class, 'store'])->name('save');
     Route::get('/edit/{id}', [AddressController::class, 'edit'])->name('edit');
-    Route::post('/update/{id}', [AddressController::class, 'update'])->name('update');
-    Route::delete('/delete/{id}', [AddressController::class, 'destroy'])->name('delete');
+    Route::put('/update/{id}', [AddressController::class, 'update'])->name('update');
+    Route::get('/delete/{id}', [AddressController::class, 'destroy'])->name('delete');
 });
 
 //order route
@@ -94,11 +92,22 @@ Route::get('/no-access', function(){
 
 
 
-Route::get('/test', function(){
-    $data = UserModel::with('carts')->get(); // use 'carts' now
-    return $data; // JSON output
+//address test
+Route::get('/test1', [OrderController::class, 'orderconform']);
+
+
+//order test
+Route::get('/conform', function(){
+
+
+    return ;
 });
-Route::get('/test1', function(){
+
+
+
+
+//cart itemtest
+Route::get('/test2', function(){
     $data = \App\Models\CartModel::with('users')->get(); // use 'carts' now
     return $data; // JSON output
 });
